@@ -7,8 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
 
-import { getCategoryIcon } from "../../../lib/categoryIcons";
-import { Category } from "../../../hooks/useInstantDB";
+import { getCategoryIcon } from "@/lib/categoryIcons";
+import { Category } from "@/hooks/useInstantDB";
 
  // pisahkan mapping icon ke file utils biar rapi
 
