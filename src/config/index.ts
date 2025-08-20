@@ -1,8 +1,8 @@
-const title = 'YONSTACK - PWA';
+const title = 'WARUNG - MAMA DION';
 
 const version = '1.0.0';
 
-const repoName = 'yonstack-pwa';
+const repoName = 'warung-mama';
 
 const author = 'Dion Firmansyah';
 

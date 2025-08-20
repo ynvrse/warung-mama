@@ -11,7 +11,7 @@ function useThemeMode() {
   const toggle = useCallback(
     () =>
       setThemeMode((themeMode) =>
-        themeMode === ThemeMode.DARK ? ThemeMode.LIGHT : ThemeMode.DARK,
+        themeMode === ThemeMode.DARK ? ThemeMode.LIGHT : ThemeMode.LIGHT,
       ),
     [setThemeMode],
   );

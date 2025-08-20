@@ -20,6 +20,17 @@ const _schema = i.schema({
             done: i.boolean(),
             createdAt: i.number(),
         }),
+        
+        products: i.entity({
+            name: i.string(),
+            price: i.number(),
+            createdAt: i.date().optional(),
+            updatedAt: i.date().optional(),
+        }),
+        categories: i.entity({
+            name: i.string(),
+            icon: i.any(),
+        })
     },
     rooms: {
         todos: {
