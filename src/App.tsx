@@ -6,10 +6,9 @@ import AppErrorBoundaryFallback from '@/error-handling/fallbacks/App';
 import { ThemeProvider } from './components/theme-provider';
 import Pages from './routes/Pages';
 
-
 function App() {
     return (
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
             <Fragment>
                 <Pages />
             </Fragment>
