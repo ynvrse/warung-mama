@@ -71,7 +71,14 @@ const EditProductModal: React.FC<Props> = ({ open, onClose, product, categories,
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Edit Produk</DialogTitle>
+                    <DialogTitle>
+                        <div className="mt-6 flex items-center justify-between gap-3">
+                            Edit Produk
+                            <Button onClick={handleSave} className="w-25">
+                                Simpan
+                            </Button>
+                        </div>
+                    </DialogTitle>
                 </DialogHeader>
 
                 <div className="space-y-4">

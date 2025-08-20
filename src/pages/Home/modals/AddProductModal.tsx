@@ -55,7 +55,15 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, categories, addProduc
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Tambah Produk Baru</DialogTitle>
+                    <DialogTitle>
+                        {/* Action */}
+                        <div className="mt-6 flex items-center justify-between gap-3">
+                            Tambah Produk Baru
+                            <Button onClick={handleAdd} className="w-25">
+                                Tambah
+                            </Button>
+                        </div>
+                    </DialogTitle>
                 </DialogHeader>
 
                 <div className="space-y-4">
