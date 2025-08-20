@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import AddProductModal from "./modals/AddProductModal";
 import EditProductModal from "./modals/EditProductModal";
 import AddCategoryModal from "./modals/AddCategoryModal";
-import { useInstantDB } from "@/hooks/useInstantDB";
+import { useInstantDB } from "../../hooks/useInstantDB";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 const ProductListPage = () => {
@@ -31,12 +31,12 @@ const ProductListPage = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<any>(null);
+  const [editingProduct, setEditingProduct] = useState(null);
 
   // ✅ pakai useMemo biar tidak re-render terus
   const filteredProducts = useMemo(
     () =>
-      products.filter((p) =>
+      products.filter((p: any) =>
         p.name.toLowerCase().includes(searchQuery.toLowerCase())
       ),
     [products, searchQuery]
@@ -74,8 +74,8 @@ const ProductListPage = () => {
 
       {/* List */}
       <div className="p-4 space-y-2">
-        {filteredProducts.map((product, index) => {
-             const category = categories.find(cat => cat.id === product.categoryId);
+        {filteredProducts.map((product: any, index: number) => {
+             const category = categories.find((cat: any) => cat.id === product.categoryId);
              const IconComponent = getCategoryIcon(category?.icon);
              const isEven = index % 2 === 0;
              
@@ -109,7 +109,7 @@ const ProductListPage = () => {
                        </DropdownMenuTrigger>
                        <DropdownMenuContent align="end">
                          <DropdownMenuItem onClick={() => {
-                    setEditingProduct(product);
+                    setEditingProduct(product as any);
                     setShowEditModal(true);
                   }}>
                            <Edit className="h-4 w-4 mr-2" />
