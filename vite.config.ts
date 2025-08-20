@@ -21,11 +21,11 @@ export default defineConfig(({ command }) => {
                 workbox: {
                     globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
                 },
-                includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
+                includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
                 manifest: {
-                    name: 'Yonstack React PWA',
-                    short_name: 'yonstack-pwa',
-                    description: 'Starter kit for modern web applications',
+                    name: 'WARUNG - MAMA DION',
+                    short_name: 'Warung',
+                    description: 'List Harga Produk',
                     theme_color: '#ffffff',
                     display: 'fullscreen',
                     start_url: isProd ? `${basenameProd}` : '/',
