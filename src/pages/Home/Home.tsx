@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import AddProductModal from "./modals/AddProductModal";
 import EditProductModal from "./modals/EditProductModal";
 import AddCategoryModal from "./modals/AddCategoryModal";
-import { useInstantDB } from "@/hooks/useInstantDB";
+import { useInstantDB } from "../../hooks/useInstantDB";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 const ProductListPage = () => {
