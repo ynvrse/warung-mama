@@ -53,7 +53,7 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, categories, addProduc
 
     return (
         <Dialog open={open} onOpenChange={onClose}>
-            <DialogContent className="top-85">
+            <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Tambah Produk Baru</DialogTitle>
                 </DialogHeader>

@@ -69,7 +69,7 @@ const EditProductModal: React.FC<Props> = ({ open, onClose, product, categories,
 
     return (
         <Dialog open={open} onOpenChange={onClose}>
-            <DialogContent className="top-85">
+            <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Edit Produk</DialogTitle>
                 </DialogHeader>
