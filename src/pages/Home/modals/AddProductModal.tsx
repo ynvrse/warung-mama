@@ -8,8 +8,13 @@ import { Plus } from "lucide-react";
 import { toast } from "sonner";
 
 import { getCategoryIcon } from "@/lib/categoryIcons";
-import { Category } from "@/hooks/useInstantDB";
 
+
+ type Category = {
+  id: string;
+  name: string;
+  icon: any;
+};
  // pisahkan mapping icon ke file utils biar rapi
 
 type Props = {

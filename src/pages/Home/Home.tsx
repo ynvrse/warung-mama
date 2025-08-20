@@ -1,30 +1,94 @@
 import { useState, useMemo } from "react";
-import { Search, Plus, ShoppingCart, MoreHorizontal, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
+import { init, tx, id } from '@instantdb/react';
+import { Baby, Book, Coffee, Edit, Heart, Home, MoreHorizontal, Plus, Search, Shirt, ShoppingCart, Trash2, Utensils, Zap } from 'lucide-react';
+
+
 
 import AddProductModal from "./modals/AddProductModal";
 import EditProductModal from "./modals/EditProductModal";
 import AddCategoryModal from "./modals/AddCategoryModal";
-import { useInstantDB } from "@/hooks/useInstantDB";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
-const ProductListPage = () => {
-  const {
-    products,
-    categories,
-    addProduct,
-    updateProduct,
-    deleteProduct,
-    addCategory,
-    getCategoryIcon,
-    getCategoryName,
-    isLoading,
-    error,
-  } = useInstantDB();
 
+ type Product = {
+  id: string;
+  name: string;
+  price: number;
+  categoryId: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+ type Category = {
+  id: string;
+  name: string;
+  icon: any;
+};
+const ProductListPage = () => {
+    const db = init({
+    appId: '8d8f5941-3c7b-4f08-a523-3cd8ff015948',
+    });
+
+  const { isLoading, error, data } = db.useQuery({
+    products: { categories: {} },
+    categories: {},
+  });
+
+  const products: any[] = data?.products || [];
+  const categories: any[] = data?.categories || [];
+
+  const addProduct = (product: Omit<Product, "id">) =>
+    db.transact([
+      tx.products[id()].update({
+        ...product,
+        createdAt: new Date(),
+      }),
+    ]);
+
+  const updateProduct = (productId: string, updates: Partial<Product>) =>
+    db.transact([
+      tx.products[productId].update({
+        ...updates,
+        updatedAt: new Date(),
+      }),
+    ]);
+
+  const deleteProduct = (productId: string) =>
+    db.transact([tx.products[productId].delete()]);
+
+  const addCategory = (category: Omit<Category, "id">) =>
+    db.transact([
+      tx.categories[id()].update({
+        ...category,
+      }),
+    ]);
+
+    const getCategoryIcon = (iconType: string) => {
+  const iconMap : any = {
+    grain: ShoppingCart,
+    cooking: Utensils,
+    sugar: Coffee,
+    coffee: Coffee,
+    snacks: Heart,
+    cleaning: Zap,
+    personal: Heart,
+    baby: Baby,
+    home: Home,
+    book: Book,
+    shirt: Shirt
+  };
+  
+  return iconMap[iconType] || ShoppingCart;
+};
+
+  const getCategoryName = (categoryId: String) => {
+    const category = categories.find(cat => cat.id === categoryId);
+    return category ? category.name : 'Tidak ada kategori';
+  };
 
 
   const [searchQuery, setSearchQuery] = useState("");

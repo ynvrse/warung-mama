@@ -7,8 +7,21 @@ import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import { getCategoryIcon } from "@/lib/categoryIcons";
-import { Category, Product } from "@/hooks/useInstantDB";
 
+ type Product = {
+  id: string;
+  name: string;
+  price: number;
+  categoryId: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+ type Category = {
+  id: string;
+  name: string;
+  icon: any;
+};
 
 
 type Props = {
