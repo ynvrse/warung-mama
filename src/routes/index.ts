@@ -1,4 +1,4 @@
-import { Github, Home } from 'lucide-react';
+import { Edit2, Github, Home, Plus } from 'lucide-react';
 
 import asyncComponentLoader from '@/utils/loader';
 
@@ -16,6 +16,18 @@ const routes: Routes = [
         path: '/home',
         title: 'Home',
         icon: Github,
+    },
+    {
+        component: asyncComponentLoader(() => import('@/pages/AddProductPage')),
+        path: '/add-product',
+        title: 'Tambah Produk',
+        icon: Plus,
+    },
+    {
+        component: asyncComponentLoader(() => import('@/pages/EditProductPage')),
+        path: '/edit-product/:productId',
+        title: 'Edit Produk',
+        icon: Edit2,
     },
 
     {

@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { id, init, tx } from '@instantdb/react';
+import { init, tx } from '@instantdb/react';
 import { Edit, Filter, FunnelPlus, FunnelX, MoreHorizontal, Plus, Search, ShoppingCart, Trash2, X } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 import { ModeToggle } from '@/components/mode-toggle';
@@ -15,26 +16,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import useOrientation from '@/hooks/useOrientation';
 import { getCategoryIcon } from '@/lib/categoryIcons';
-import AddCategoryModal from './modals/AddCategoryModal';
-import AddProductModal from './modals/AddProductModal';
-import EditProductModal from './modals/EditProductModal';
-
-type Product = {
-    id: string;
-    name: string;
-    price: number;
-    categoryId: string;
-    createdAt?: Date;
-    updatedAt?: Date;
-};
-
-type Category = {
-    id: string;
-    name: string;
-    icon: any;
-};
 
 const ProductListPage = () => {
+    const navigate = useNavigate();
     const isPotrait = useOrientation();
 
     const db = init({
@@ -49,30 +33,7 @@ const ProductListPage = () => {
     const products: any[] = data?.products || [];
     const categories: any[] = data?.categories || [];
 
-    const addProduct = (product: Omit<Product, 'id'>) =>
-        db.transact([
-            tx.products[id()].update({
-                ...product,
-                createdAt: new Date(),
-            }),
-        ]);
-
-    const updateProduct = (productId: string, updates: Partial<Product>) =>
-        db.transact([
-            tx.products[productId].update({
-                ...updates,
-                updatedAt: new Date(),
-            }),
-        ]);
-
     const deleteProduct = (productId: string) => db.transact([tx.products[productId].delete()]);
-
-    const addCategory = (category: Omit<Category, 'id'>) =>
-        db.transact([
-            tx.categories[id()].create({
-                ...category,
-            }),
-        ]);
 
     const getCategoryName = (categoryId: String) => {
         const category = categories.find((cat) => cat.id === categoryId);
@@ -85,10 +46,6 @@ const ProductListPage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
     const [showCategoryFilter, setShowCategoryFilter] = useState(false);
-    const [showAddModal, setShowAddModal] = useState(false);
-    const [showEditModal, setShowEditModal] = useState(false);
-    const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
-    const [editingProduct, setEditingProduct] = useState(null);
 
     // Filter products berdasarkan search dan kategori
     const filteredProducts = useMemo(() => {
@@ -170,7 +127,7 @@ const ProductListPage = () => {
                                 className="border-primary border pl-8"
                             />
 
-                            <Button onClick={() => setShowAddModal(true)}>
+                            <Button onClick={() => navigate('/add-product')}>
                                 <Plus className="h-4 w-4" />
                                 Tambah
                             </Button>
@@ -340,12 +297,7 @@ const ProductListPage = () => {
                                             </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
-                                            <DropdownMenuItem
-                                                onClick={() => {
-                                                    setEditingProduct(product as any);
-                                                    setShowEditModal(true);
-                                                }}
-                                            >
+                                            <DropdownMenuItem onClick={() => navigate(`/edit-product/${product.id}`)}>
                                                 <Edit className="mr-2 h-4 w-4" />
                                                 Edit
                                             </DropdownMenuItem>
@@ -390,7 +342,7 @@ const ProductListPage = () => {
             </div>
 
             {/* Modals */}
-            <AddProductModal
+            {/* <AddProductModal
                 open={showAddModal}
                 onClose={() => setShowAddModal(false)}
                 categories={categories}
@@ -411,7 +363,7 @@ const ProductListPage = () => {
                 open={showAddCategoryModal}
                 onClose={() => setShowAddCategoryModal(false)}
                 addCategory={addCategory}
-            />
+            /> */}
         </div>
     );
 };
