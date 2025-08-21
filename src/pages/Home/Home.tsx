@@ -75,7 +75,7 @@ const ProductListPage = () => {
     });
 
     const products: any[] = data?.products || [];
-    const categories: any[] = data?.categories || [];
+    const categories = (data?.categories || []).filter((c) => c.name !== 'Default');
 
     const deleteProduct = (productId: string) => db.transact([tx.products[productId].delete()]);
 
@@ -117,47 +117,44 @@ const ProductListPage = () => {
 
     // Advanced filtering and sorting
     const filteredAndSortedProducts = useMemo(() => {
-        let filtered = products.filter((p: any) => {
-            const matchesSearch = p.name.toLowerCase().includes(filters.search.toLowerCase());
-            const matchesCategory = filters.categoryId === '' || p.categoryId === filters.categoryId;
-            const matchesPriceRange = getPriceRangeFilter(p.price, filters.priceRange);
-            return matchesSearch && matchesCategory && matchesPriceRange;
-        });
-
-        // Sorting
-        filtered.sort((a: any, b: any) => {
-            let comparison = 0;
-
-            switch (filters.sortField) {
-                case 'name':
-                    comparison = a.name.localeCompare(b.name);
-                    break;
-                case 'price':
-                    comparison = a.price - b.price;
-                    break;
-                case 'createdAt':
-                    comparison = new Date(a.serverCreatedAt).getTime() - new Date(b.serverCreatedAt).getTime();
-                    break;
-                case 'category':
-                    const categoryA = getCategoryName(a.categoryId) || '';
-                    const categoryB = getCategoryName(b.categoryId) || '';
-                    comparison = categoryA.localeCompare(categoryB);
-                    break;
-            }
-
-            return filters.sortOrder === 'desc' ? -comparison : comparison;
-        });
-
-        return filtered;
+        return [...products]
+            .filter((p) => {
+                const matchesSearch = p.name.toLowerCase().includes(filters.search.toLowerCase());
+                const matchesCategory = filters.categoryId === '' || p.categoryId === filters.categoryId;
+                const matchesPriceRange = getPriceRangeFilter(p.price, filters.priceRange);
+                return matchesSearch && matchesCategory && matchesPriceRange;
+            })
+            .sort((a, b) => {
+                let comparison = 0;
+                switch (filters.sortField) {
+                    case 'name':
+                        comparison = a.name.localeCompare(b.name);
+                        break;
+                    case 'price':
+                        comparison = a.price - b.price;
+                        break;
+                    case 'createdAt':
+                        comparison = new Date(a.serverCreatedAt).getTime() - new Date(b.serverCreatedAt).getTime();
+                        break;
+                    case 'category':
+                        comparison = (getCategoryName(a.categoryId) || '').localeCompare(
+                            getCategoryName(b.categoryId) || '',
+                        );
+                        break;
+                }
+                return filters.sortOrder === 'desc' ? -comparison : comparison;
+            });
     }, [products, filters]);
 
     // Statistics
     const categoryStats = useMemo(() => {
-        const stats: Record<string, number> = {};
-        products.forEach((product: any) => {
-            stats[product.categoryId] = (stats[product.categoryId] || 0) + 1;
-        });
-        return stats;
+        return products.reduce(
+            (acc, p) => {
+                acc[p.categoryId] = (acc[p.categoryId] || 0) + 1;
+                return acc;
+            },
+            {} as Record<string, number>,
+        );
     }, [products]);
 
     const priceStats = useMemo(() => {
