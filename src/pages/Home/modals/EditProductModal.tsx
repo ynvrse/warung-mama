@@ -41,36 +41,17 @@ const EditProductModal: React.FC<Props> = ({ open, onClose, product, categories,
     }, [product]);
 
     useEffect(() => {
-        if (open) {
-            // Lock body scroll when modal is open
-            document.body.style.overflow = 'hidden';
-            document.body.style.position = 'fixed';
-            document.body.style.width = '100%';
-            document.body.style.top = '0';
-
-            // Handle viewport height changes (keyboard show/hide)
-            const handleResize = () => {
-                // Force recalculation of viewport height
-                const vh = window.innerHeight * 0.01;
-                document.documentElement.style.setProperty('--vh', `${vh}px`);
-            };
-
-            handleResize();
-            window.addEventListener('resize', handleResize);
-            window.addEventListener('orientationchange', handleResize);
-
-            return () => {
-                window.removeEventListener('resize', handleResize);
-                window.removeEventListener('orientationchange', handleResize);
-            };
-        } else {
-            // Restore body scroll when modal is closed
-            document.body.style.overflow = '';
-            document.body.style.position = '';
-            document.body.style.width = '';
-            document.body.style.top = '';
-        }
-    }, [open]);
+        const setVh = () => {
+            document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+        };
+        setVh();
+        window.addEventListener('resize', setVh);
+        window.addEventListener('orientationchange', setVh);
+        return () => {
+            window.removeEventListener('resize', setVh);
+            window.removeEventListener('orientationchange', setVh);
+        };
+    }, []);
 
     const handleSave = () => {
         if (!editProduct) return;
@@ -100,13 +81,10 @@ const EditProductModal: React.FC<Props> = ({ open, onClose, product, categories,
     if (!editProduct) return null;
 
     return (
-        <Dialog open={open} onOpenChange={onClose} modal={true}>
+        <Dialog open={open} onOpenChange={onClose} modal={false}>
             <DialogContent
-                className="min-h-screen w-screen max-w-none overflow-y-auto rounded-none p-6 focus:outline-none"
-                style={{
-                    height: 'calc(var(--vh, 1vh) * 100)',
-                    maxHeight: 'calc(var(--vh, 1vh) * 100)',
-                }}
+                className="w-screen max-w-none overflow-y-auto rounded-none p-6"
+                style={{ height: 'calc(var(--vh) * 100)' }}
                 showCloseButton={false}
                 onOpenAutoFocus={(e) => {
                     // Prevent auto focus that might trigger keyboard
