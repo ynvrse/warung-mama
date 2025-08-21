@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { availableIcons } from '@/lib/categoryIcons';
 import { X } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { toast } from 'sonner';
 
 export type Category = {
@@ -21,19 +21,6 @@ type Props = {
 };
 
 const AddCategoryModal: React.FC<Props> = ({ open, onClose, addCategory }) => {
-    useEffect(() => {
-        const setVh = () => {
-            document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-        };
-        setVh();
-        window.addEventListener('resize', setVh);
-        window.addEventListener('orientationchange', setVh);
-        return () => {
-            window.removeEventListener('resize', setVh);
-            window.removeEventListener('orientationchange', setVh);
-        };
-    }, []);
-
     const [newCategory, setNewCategory] = useState({ name: '', icon: 'default' });
 
     const handleAdd = () => {
@@ -54,15 +41,7 @@ const AddCategoryModal: React.FC<Props> = ({ open, onClose, addCategory }) => {
 
     return (
         <Dialog open={open} onOpenChange={onClose} modal={false}>
-            <DialogContent
-                className="w-screen max-w-none overflow-y-auto rounded-none p-6"
-                style={{ height: 'calc(var(--vh) * 100)' }}
-                onInteractOutside={(e) => {
-                    e.preventDefault();
-                    onClose();
-                }}
-                showCloseButton={false}
-            >
+            <DialogContent className="w-screen max-w-none overflow-y-auto rounded-none p-6" showCloseButton={false}>
                 <DialogHeader className="mt-4">
                     <div className="flex items-center justify-between">
                         <DialogTitle>Tambah Kategori Baru</DialogTitle>

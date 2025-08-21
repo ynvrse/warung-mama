@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 
 import AddCategoryModal from '@/components/modals/AddCategoryModal';
 import { getCategoryIcon } from '@/lib/categoryIcons';
+import { env } from '@/lib/env';
 import { id, init, tx } from '@instantdb/react';
 
 type Category = {
@@ -22,7 +23,7 @@ const AddProductPage: React.FC = () => {
     const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
 
     const db = init({
-        appId: '8d8f5941-3c7b-4f08-a523-3cd8ff015948',
+        appId: env.instantDbAppId,
     });
 
     const { data } = db.useQuery({
@@ -34,7 +35,7 @@ const AddProductPage: React.FC = () => {
     const [newProduct, setNewProduct] = useState({
         name: '',
         price: 0,
-        categoryId: categories.length > 0 ? categories[0].id : '',
+        categoryId: categories.length > 0 ? categories[0].id : 'ac9928a9-cdd5-4d8e-b145-ab6353fb1440',
     });
 
     const handleAdd = () => {
@@ -142,7 +143,7 @@ const AddProductPage: React.FC = () => {
                         <Button
                             variant="outline"
                             onClick={() => {
-                                setShowAddCategoryModal(true);
+                                navigate('/add-category');
                             }}
                             className="border-primary text-primary hover:bg-primary/5 mt-3 h-12 w-full border-dashed"
                         >

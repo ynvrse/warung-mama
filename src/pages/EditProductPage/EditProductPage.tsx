@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 
 import AddCategoryModal from '@/components/modals/AddCategoryModal';
 import { getCategoryIcon } from '@/lib/categoryIcons';
+import { env } from '@/lib/env';
 import { id, init, tx } from '@instantdb/react';
 
 type Product = {
@@ -30,7 +31,7 @@ const EditProductPage: React.FC = () => {
     const { productId } = useParams<{ productId: string }>();
     const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
     const db = init({
-        appId: '8d8f5941-3c7b-4f08-a523-3cd8ff015948',
+        appId: env.instantDbAppId,
     });
 
     const { data } = db.useQuery({
@@ -183,8 +184,7 @@ const EditProductPage: React.FC = () => {
                         <Button
                             variant="outline"
                             onClick={() => {
-                                // TODO: Implement add category functionality
-                                toast.info('Fitur tambah kategori akan segera hadir');
+                                navigate('/add-category');
                             }}
                             className="border-primary text-primary hover:bg-primary/5 mt-3 h-12 w-full border-dashed"
                         >

@@ -6,14 +6,15 @@ import {
     Carrot,
     Cigarette,
     Coffee,
+    CupSoda,
     Droplet,
     Fish,
     Milk,
-    Package,
     Package2,
     Popcorn,
     Shirt,
     Utensils,
+    Wheat,
 } from 'lucide-react';
 
 export const getCategoryIcon = (iconType: string) => {
@@ -27,12 +28,13 @@ export const getCategoryIcon = (iconType: string) => {
         cigarette: Cigarette, // Rokok
         book: Book, // Buku / bacaan
         shirt: Shirt, // Pakaian
-        rice: Package, // Beras, sembako utama
+        rice: Wheat, // Beras, sembako utama
         oil: Droplet, // Minyak goreng
         fruit: Apple, // Buah
         vegetable: Carrot, // Sayuran
         milk: Milk, // Susu, olahan susu
         fish: Fish, // Ikan, protein
+        drink: CupSoda,
     };
     return iconMap[iconType] || Package2;
 };
@@ -41,13 +43,14 @@ export const availableIcons = [
     { key: 'default', name: 'Default', component: Package2 },
     { key: 'cooking', name: 'Bumbu & Masakan', component: Utensils },
     { key: 'coffee', name: 'Minuman', component: Coffee },
+    { key: 'drink', name: 'Minuman Dalam Kemasan', component: CupSoda },
     { key: 'snacks', name: 'Camilan', component: Popcorn },
     { key: 'cleaning', name: 'Pembersih', component: Bubbles },
     { key: 'baby', name: 'Produk Bayi', component: Baby },
     { key: 'cigarette', name: 'Rokok', component: Cigarette },
     { key: 'book', name: 'Buku', component: Book },
     { key: 'shirt', name: 'Pakaian', component: Shirt },
-    { key: 'rice', name: 'Beras', component: Package },
+    { key: 'rice', name: 'Beras', component: Wheat },
     { key: 'oil', name: 'Minyak', component: Droplet },
     { key: 'fruit', name: 'Buah', component: Apple },
     { key: 'vegetable', name: 'Sayuran', component: Carrot },

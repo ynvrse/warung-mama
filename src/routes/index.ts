@@ -24,6 +24,12 @@ const routes: Routes = [
         icon: Plus,
     },
     {
+        component: asyncComponentLoader(() => import('@/pages/AddCategoryPage')),
+        path: '/add-category',
+        title: 'Tambah Kategori Produk',
+        icon: Plus,
+    },
+    {
         component: asyncComponentLoader(() => import('@/pages/EditProductPage')),
         path: '/edit-product/:productId',
         title: 'Edit Produk',
