@@ -1,9 +1,10 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { availableIcons } from '@/lib/categoryIcons';
+import { X } from 'lucide-react';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -40,12 +41,23 @@ const AddCategoryModal: React.FC<Props> = ({ open, onClose, addCategory }) => {
 
     return (
         <Dialog open={open} onOpenChange={onClose}>
-            <DialogContent className="top-60">
-                <DialogHeader>
-                    <DialogTitle>Tambah Kategori Baru</DialogTitle>
+            <DialogContent
+                className="h-screen w-screen max-w-none overflow-y-auto rounded-none p-6"
+                showCloseButton={false}
+            >
+                <DialogHeader className="mt-4">
+                    <div className="flex items-center justify-between">
+                        <DialogTitle>Tambah Kategori Baru</DialogTitle>
+                        <DialogClose asChild>
+                            <Button size={'icon'}>
+                                <X className="h-5 w-5" />
+                                <span className="sr-only">Close</span>
+                            </Button>
+                        </DialogClose>
+                    </div>
                 </DialogHeader>
 
-                <div className="space-y-4">
+                <div className="-mt-12 space-y-4">
                     <div>
                         <Label htmlFor="cat-name" className="mb-4">
                             Nama Kategori<span className="text-red-500">*</span>

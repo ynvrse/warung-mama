@@ -1,10 +1,10 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { getCategoryIcon } from '@/lib/categoryIcons';
-import { Plus } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -69,38 +69,27 @@ const EditProductModal: React.FC<Props> = ({ open, onClose, product, categories,
 
     return (
         <Dialog open={open} onOpenChange={onClose}>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>
-                        <div className="mt-6 flex items-center justify-between gap-3">
-                            Edit Produk
-                            <Button onClick={handleSave} className="w-25">
-                                Simpan
+            <DialogContent
+                className="h-screen w-screen max-w-none overflow-y-auto rounded-none p-6"
+                showCloseButton={false}
+                onOpenAutoFocus={(e) => {
+                    e.preventDefault(); // cegah fokus default Radix
+                    document.getElementById('edit-price')?.focus(); // paksa fokus ke input
+                }}
+            >
+                <DialogHeader className="mt-4">
+                    <div className="flex items-center justify-between">
+                        <DialogTitle>Tambah Produk Baru</DialogTitle>
+                        <DialogClose asChild>
+                            <Button size={'icon'}>
+                                <X className="h-5 w-5" />
+                                <span className="sr-only">Close</span>
                             </Button>
-                        </div>
-                    </DialogTitle>
+                        </DialogClose>
+                    </div>
                 </DialogHeader>
 
-                <div className="space-y-4">
-                    {/* Harga Produk */}
-                    <div>
-                        <Label htmlFor="edit-price" className="mb-4">
-                            Harga
-                        </Label>
-                        <Input
-                            id="edit-price"
-                            type="number"
-                            min={0}
-                            value={editProduct.price}
-                            onChange={(e) =>
-                                setEditProduct({
-                                    ...editProduct,
-                                    price: Number(e.target.value),
-                                })
-                            }
-                        />
-                    </div>
-
+                <div className="-mt-12 space-y-4">
                     {/* Nama Produk */}
                     <div>
                         <Label htmlFor="edit-name" className="mb-4">
@@ -110,6 +99,25 @@ const EditProductModal: React.FC<Props> = ({ open, onClose, product, categories,
                             id="edit-name"
                             value={editProduct.name}
                             onChange={(e) => setEditProduct({ ...editProduct, name: e.target.value })}
+                        />
+                    </div>
+
+                    {/* Harga Produk */}
+                    <div>
+                        <Label htmlFor="edit-price" className="mb-4">
+                            Harga
+                        </Label>
+                        <Input
+                            id="edit-price"
+                            type="number"
+                            min={0}
+                            value={editProduct.price === 0 ? '' : editProduct.price}
+                            onChange={(e) =>
+                                setEditProduct({
+                                    ...editProduct,
+                                    price: e.target.value === '' ? 0 : Number(e.target.value),
+                                })
+                            }
                         />
                     </div>
 

@@ -21,7 +21,7 @@ function render(App: ComponentType) {
                 <JotaiProvider>
                     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
                         <App />
-                        <Toaster richColors />
+                        <Toaster richColors position="top-center" />
                     </ThemeProvider>
                 </JotaiProvider>
             </BrowserRouter>

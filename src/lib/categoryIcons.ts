@@ -8,10 +8,9 @@ import {
     Coffee,
     Droplet,
     Fish,
-    Home,
-    LayoutGrid,
     Milk,
     Package,
+    Package2,
     Popcorn,
     Shirt,
     Utensils,
@@ -19,7 +18,7 @@ import {
 
 export const getCategoryIcon = (iconType: string) => {
     const iconMap: Record<string, any> = {
-        default: Home,
+        default: Package2,
         cooking: Utensils, // Bumbu dapur, masakan
         coffee: Coffee, // Kopi, teh, minuman
         snacks: Popcorn, // Camilan
@@ -35,11 +34,11 @@ export const getCategoryIcon = (iconType: string) => {
         milk: Milk, // Susu, olahan susu
         fish: Fish, // Ikan, protein
     };
-    return iconMap[iconType] || LayoutGrid;
+    return iconMap[iconType] || Package2;
 };
 
 export const availableIcons = [
-    { key: 'default', name: 'Default', component: LayoutGrid },
+    { key: 'default', name: 'Default', component: Package2 },
     { key: 'cooking', name: 'Bumbu & Masakan', component: Utensils },
     { key: 'coffee', name: 'Minuman', component: Coffee },
     { key: 'snacks', name: 'Camilan', component: Popcorn },

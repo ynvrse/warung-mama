@@ -1,9 +1,9 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Plus } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -53,26 +53,40 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, categories, addProduc
 
     return (
         <Dialog open={open} onOpenChange={onClose}>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>
-                        {/* Action */}
-                        <div className="mt-6 flex items-center justify-between gap-3">
-                            Tambah Produk Baru
-                            <Button onClick={handleAdd} className="w-25">
-                                Tambah
+            <DialogContent
+                className="h-screen w-screen max-w-none overflow-y-auto rounded-none p-6"
+                showCloseButton={false}
+            >
+                <DialogHeader className="mt-4">
+                    <div className="flex items-center justify-between">
+                        <DialogTitle>Tambah Produk Baru</DialogTitle>
+                        <DialogClose asChild>
+                            <Button
+                                size={'icon'}
+                                onClick={() => {
+                                    setNewProduct({
+                                        name: '',
+                                        price: 0,
+                                        categoryId: 'ac9928a9-cdd5-4d8e-b145-ab6353fb1440',
+                                    });
+                                    onClose();
+                                }}
+                            >
+                                <X className="h-5 w-5" />
+                                <span className="sr-only">Close</span>
                             </Button>
-                        </div>
-                    </DialogTitle>
+                        </DialogClose>
+                    </div>
                 </DialogHeader>
 
-                <div className="space-y-4">
+                <div className="-mt-12 space-y-4">
                     {/* Nama Produk */}
                     <div>
                         <Label htmlFor="product-name" className="mb-4">
                             Nama Produk<span className="text-red-500">*</span>
                         </Label>
                         <Input
+                            autoFocus
                             id="product-name"
                             value={newProduct.name}
                             onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
@@ -133,7 +147,11 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, categories, addProduc
                     <Button
                         variant="outline"
                         onClick={() => {
-                            setNewProduct({ name: '', price: 0, categoryId: 'ac9928a9-cdd5-4d8e-b145-ab6353fb1440' });
+                            setNewProduct({
+                                name: '',
+                                price: 0,
+                                categoryId: 'ac9928a9-cdd5-4d8e-b145-ab6353fb1440',
+                            });
                             onClose();
                         }}
                         className="flex-1"
