@@ -54,8 +54,12 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, categories, addProduc
     return (
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent
-                className="h-screen w-screen max-w-none overflow-y-auto rounded-none p-6"
+                className="min-h-screen w-screen max-w-none overflow-y-auto rounded-none p-6"
                 showCloseButton={false}
+                onInteractOutside={(e) => {
+                    e.preventDefault();
+                    onClose();
+                }}
             >
                 <DialogHeader className="mt-4">
                     <div className="flex items-center justify-between">
@@ -69,7 +73,6 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, categories, addProduc
                                         price: 0,
                                         categoryId: 'ac9928a9-cdd5-4d8e-b145-ab6353fb1440',
                                     });
-                                    onClose();
                                 }}
                             >
                                 <X className="h-5 w-5" />

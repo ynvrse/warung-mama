@@ -42,8 +42,12 @@ const AddCategoryModal: React.FC<Props> = ({ open, onClose, addCategory }) => {
     return (
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent
-                className="h-screen w-screen max-w-none overflow-y-auto rounded-none p-6"
+                className="min-h-screen w-screen max-w-none overflow-y-auto rounded-none p-6"
                 showCloseButton={false}
+                onInteractOutside={(e) => {
+                    e.preventDefault();
+                    onClose();
+                }}
             >
                 <DialogHeader className="mt-4">
                     <div className="flex items-center justify-between">

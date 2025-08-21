@@ -70,11 +70,15 @@ const EditProductModal: React.FC<Props> = ({ open, onClose, product, categories,
     return (
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent
-                className="h-screen w-screen max-w-none overflow-y-auto rounded-none p-6"
+                className="min-h-screen w-screen max-w-none overflow-y-auto rounded-none p-6"
                 showCloseButton={false}
                 onOpenAutoFocus={(e) => {
-                    e.preventDefault(); // cegah fokus default Radix
-                    document.getElementById('edit-price')?.focus(); // paksa fokus ke input
+                    e.preventDefault();
+                    document.getElementById('edit-price')?.focus();
+                }}
+                onInteractOutside={(e) => {
+                    e.preventDefault();
+                    onClose();
                 }}
             >
                 <DialogHeader className="mt-4">
