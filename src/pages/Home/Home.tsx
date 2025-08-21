@@ -3,11 +3,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { init, tx } from '@instantdb/react';
 import {
+    AlertTriangle,
     ArrowDown,
     ArrowDownAZ,
     ArrowUp,
     ArrowUpDown,
     Calendar,
+    CheckCircle,
     DollarSign,
     Edit,
     Filter,
@@ -21,6 +23,7 @@ import {
     SortDesc,
     Trash2,
     X,
+    XCircle,
     Zap,
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
@@ -176,16 +179,66 @@ const ProductListPage = () => {
         return ranges;
     }, [products]);
 
-    const handleDelete = (id: string) => {
-        toast.info('Yakin ingin menghapus produk ini?', {
-            action: {
-                label: 'Hapus',
-                onClick: () => {
-                    deleteProduct(id);
-                    toast.success('Produk berhasil dihapus');
-                },
+    const handleDelete = (id: string, productName?: string) => {
+        toast.custom(
+            (t) => (
+                <div className="bg-background w-full rounded-md border border-gray-500 p-4 shadow-lg">
+                    <div className="flex items-center gap-2">
+                        <AlertTriangle className="h-4 w-4 text-amber-500" />
+                        <div className="flex flex-col">
+                            <span className="text-sm font-medium">Hapus produk ini?</span>
+                            {productName && <span className="text-muted-foreground text-xs">{productName}</span>}
+                        </div>
+                    </div>
+
+                    <div className="mt-4 flex items-center justify-end gap-2">
+                        <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => toast.dismiss(t)}
+                            className="h-8 border border-gray-500 px-3"
+                        >
+                            Batal
+                        </Button>
+                        <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={async () => {
+                                try {
+                                    toast.dismiss(t);
+
+                                    const loadingToast = toast.loading('Menghapus produk...');
+
+                                    await deleteProduct(id);
+
+                                    toast.dismiss(loadingToast);
+                                    toast.success(
+                                        <div className="flex items-center gap-2">
+                                            <CheckCircle className="h-4 w-4 text-green-500" />
+                                            <span>Produk berhasil dihapus</span>
+                                        </div>,
+                                    );
+                                } catch (error) {
+                                    toast.error(
+                                        <div className="flex items-center gap-2">
+                                            <XCircle className="h-4 w-4 text-red-500" />
+                                            <span>Gagal menghapus produk</span>
+                                        </div>,
+                                    );
+                                }
+                            }}
+                            className="h-8 px-3"
+                        >
+                            Hapus
+                        </Button>
+                    </div>
+                </div>
+            ),
+            {
+                duration: 5000,
+                position: 'top-center',
             },
-        });
+        );
     };
 
     const updateFilter = (key: keyof FilterState, value: any) => {
@@ -673,7 +726,7 @@ const ProductListPage = () => {
                                                 Edit
                                             </DropdownMenuItem>
                                             <DropdownMenuItem
-                                                onClick={() => handleDelete(product.id)}
+                                                onClick={() => handleDelete(product.id, product.name)}
                                                 className="text-destructive"
                                             >
                                                 <Trash2 className="mr-2 h-4 w-4" />

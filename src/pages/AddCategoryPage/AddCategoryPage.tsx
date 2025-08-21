@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { availableIcons } from '@/lib/categoryIcons';
 import { env } from '@/lib/env';
 import { id, init, tx } from '@instantdb/react';
-import { Edit3, Plus, Trash2, Undo2 } from 'lucide-react';
+import { AlertTriangle, Edit3, Plus, Trash2, Undo2 } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -35,7 +35,7 @@ const AddCategoryPage: React.FC<Props> = () => {
         categories: {},
     });
 
-    const categories = data?.categories || [];
+    const categories = data?.categories.filter((c: any) => c.name !== 'Default') || [];
 
     const addCategory = (category: Omit<Category, 'id'>) =>
         db.transact([
@@ -101,14 +101,39 @@ const AddCategoryPage: React.FC<Props> = () => {
     };
 
     const handleDeleteCategory = (category: any) => {
-        if (window.confirm(`Apakah Anda yakin ingin menghapus kategori "${category.name}"?`)) {
-            deleteCategory(category.id);
-            toast.success('Kategori berhasil dihapus');
-            if (editingCategory?.id === category.id) {
-                setEditingCategory(null);
-                setNewCategory({ name: '', icon: 'default' });
-            }
-        }
+        toast.custom((t) => (
+            <div className="bg-background w-full space-y-4 rounded-md border p-4 shadow-lg">
+                <div className="flex items-center gap-2">
+                    <AlertTriangle className="h-4 w-4 text-amber-500" />
+                    <div className="flex flex-col">
+                        <span className="text-sm font-medium">Hapus kategori ini?</span>
+                        <span className="text-muted-foreground text-xs">{category.name}</span>
+                    </div>
+                </div>
+
+                <div className="flex justify-end gap-2">
+                    <Button variant="outline" size="sm" onClick={() => toast.dismiss(t)}>
+                        Batal
+                    </Button>
+                    <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => {
+                            deleteCategory(category.id);
+                            toast.dismiss(t);
+                            toast.success('Kategori berhasil dihapus');
+
+                            if (editingCategory?.id === category.id) {
+                                setEditingCategory(null);
+                                setNewCategory({ name: '', icon: 'default' });
+                            }
+                        }}
+                    >
+                        Hapus
+                    </Button>
+                </div>
+            </div>
+        ));
     };
 
     const handleCancel = () => {
