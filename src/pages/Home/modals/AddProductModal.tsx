@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Plus, X } from 'lucide-react';
@@ -55,6 +55,7 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, categories, addProduc
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent
                 className="min-h-screen w-screen max-w-none overflow-y-auto rounded-none p-6"
+                showCloseButton={false}
                 onInteractOutside={(e) => {
                     e.preventDefault();
                     onClose();
@@ -63,21 +64,21 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, categories, addProduc
                 <DialogHeader className="mt-4">
                     <div className="flex items-center justify-between">
                         <DialogTitle>Tambah Produk Baru</DialogTitle>
-                        <DialogClose asChild>
-                            <Button
-                                size={'icon'}
-                                onClick={() => {
-                                    setNewProduct({
-                                        name: '',
-                                        price: 0,
-                                        categoryId: 'ac9928a9-cdd5-4d8e-b145-ab6353fb1440',
-                                    });
-                                }}
-                            >
-                                <X className="h-5 w-5" />
-                                <span className="sr-only">Close</span>
-                            </Button>
-                        </DialogClose>
+
+                        <Button
+                            size={'icon'}
+                            onClick={() => {
+                                setNewProduct({
+                                    name: '',
+                                    price: 0,
+                                    categoryId: 'ac9928a9-cdd5-4d8e-b145-ab6353fb1440',
+                                });
+                                onClose();
+                            }}
+                        >
+                            <X className="h-5 w-5" />
+                            <span className="sr-only">Close</span>
+                        </Button>
                     </div>
                 </DialogHeader>
 

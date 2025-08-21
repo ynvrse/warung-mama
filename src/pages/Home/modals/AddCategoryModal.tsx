@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { availableIcons } from '@/lib/categoryIcons';
@@ -47,16 +47,15 @@ const AddCategoryModal: React.FC<Props> = ({ open, onClose, addCategory }) => {
                     e.preventDefault();
                     onClose();
                 }}
+                showCloseButton={false}
             >
                 <DialogHeader className="mt-4">
                     <div className="flex items-center justify-between">
                         <DialogTitle>Tambah Kategori Baru</DialogTitle>
-                        <DialogClose asChild>
-                            <Button size={'icon'}>
-                                <X className="h-5 w-5" />
-                                <span className="sr-only">Close</span>
-                            </Button>
-                        </DialogClose>
+                        <Button size={'icon'} onClick={onClose}>
+                            <X className="h-5 w-5" />
+                            <span className="sr-only">Close</span>
+                        </Button>
                     </div>
                 </DialogHeader>
 

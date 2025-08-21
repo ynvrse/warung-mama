@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { getCategoryIcon } from '@/lib/categoryIcons';
@@ -79,16 +79,17 @@ const EditProductModal: React.FC<Props> = ({ open, onClose, product, categories,
                     e.preventDefault();
                     onClose();
                 }}
+                showCloseButton={false}
             >
                 <DialogHeader className="mt-4">
                     <div className="flex items-center justify-between">
                         <DialogTitle>Tambah Produk Baru</DialogTitle>
-                        <DialogClose asChild>
-                            <Button size={'icon'}>
-                                <X className="h-5 w-5" />
-                                <span className="sr-only">Close</span>
-                            </Button>
-                        </DialogClose>
+                        {/* <DialogClose asChild> */}
+                        <Button size={'icon'} onClick={onClose}>
+                            <X className="h-5 w-5" />
+                            <span className="sr-only">Close</span>
+                        </Button>
+                        {/* </DialogClose> */}
                     </div>
                 </DialogHeader>
 
