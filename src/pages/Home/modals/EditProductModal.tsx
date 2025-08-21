@@ -71,7 +71,6 @@ const EditProductModal: React.FC<Props> = ({ open, onClose, product, categories,
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent
                 className="min-h-screen w-screen max-w-none overflow-y-auto rounded-none p-6"
-                showCloseButton={false}
                 onOpenAutoFocus={(e) => {
                     e.preventDefault();
                     document.getElementById('edit-price')?.focus();

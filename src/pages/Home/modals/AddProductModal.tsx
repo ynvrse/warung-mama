@@ -55,7 +55,6 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, categories, addProduc
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent
                 className="min-h-screen w-screen max-w-none overflow-y-auto rounded-none p-6"
-                showCloseButton={false}
                 onInteractOutside={(e) => {
                     e.preventDefault();
                     onClose();
